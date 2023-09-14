@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "c4t"
-version = "1.0.1"
+version = "1.0.2"
 authors = [
   { name="p4irin", email="139928764+p4irin@users.noreply.github.com" },
 ]
@@ -50,7 +50,7 @@ include-package-data = true
 where = ["src"]
 
 [tool.bumpver]
-current_version = "1.0.1"
+current_version = "1.0.2"
 version_pattern = "MAJOR.MINOR.PATCH"
 commit_message = "Bump version {old_version} -> {new_version}"
 tag_message = "{new_version}"

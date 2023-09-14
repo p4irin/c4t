@@ -1,4 +1,4 @@
-# c4t: Chrome for Testing - v1.0.1
+# c4t: Chrome for Testing - v1.0.2
 
 Install _Chrome for Testing_ assets. A flavor of Chrome, specifically for testing and a matching chromedriver. The version of assets installed are from the stable channel and currently only for _linux64_ platforms.
 
