@@ -1,0 +1,10 @@
+.git/
+.vscode/
+build/
+dist/
+venv/
+__pycache__/
+*.egg-info/
+.env
+assets/
+NOTES.md
