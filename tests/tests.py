@@ -17,7 +17,11 @@ class C4tTests(unittest.TestCase):
 
     @classmethod
     def setUpClass(cls) -> None:
-        pass
+        cls.chrome_options = ChromeOptions()
+        cls.chrome_options.binary_location = c4t.location.chrome
+        cls.chrome_service = ChromeService(
+            executable_path=c4t.location.chromedriver
+        )
 
     def setUp(self) -> None:
         pass
@@ -28,6 +32,21 @@ class C4tTests(unittest.TestCase):
     @classmethod
     def tearDownClass(cls) -> None:
         pass
+
+    def verify_chrome_for_testing_version_with_selenium(
+            self, expected_version: str
+        ):
+
+        browser = Chrome(
+            options=self.chrome_options, service=self.chrome_service
+        )
+        browser.get('http://pypi.org/user/p4irin')
+        self.assertTrue(browser.title == 'Profile of p4irin · PyPI')
+        time.sleep(3)
+        self.assertTrue(
+            browser.capabilities["browserVersion"] == expected_version
+        )
+        browser.quit()    
 
     def test_001_installation_of_default_latest_stable_version(self):
         assets_dir = './assets'
@@ -47,19 +66,13 @@ class C4tTests(unittest.TestCase):
                 f'{assets_dir}/{assets.active_version}/chromedriver-linux64'
                 + '/chromedriver'
             )
-        )        
+        )
 
-    def test_002_use_c4t_with_selenium(self):
-        options = ChromeOptions()
-        options.binary_location = c4t.location.chrome
-        service = ChromeService(executable_path=c4t.location.chromedriver)
-        browser = Chrome(options=options, service=service)
-        browser.get('http://pypi.org/user/p4irin')
-        self.assertTrue(browser.title == 'Profile of p4irin · PyPI')
-        time.sleep(5)
-        browser.quit()
+        self.verify_chrome_for_testing_version_with_selenium(
+            expected_version=assets.active_version
+        )
 
-    def test_003_installation_of_a_specific_version_of_assets(self):
+    def test_002_installation_of_a_specific_version_of_assets(self):
         assets_dir = './assets'
         rmtree(assets_dir) if os.path.exists(assets_dir) else None
             
@@ -78,4 +91,8 @@ class C4tTests(unittest.TestCase):
                 f'{assets_dir}/{assets.active_version}/chromedriver-linux64'
                 + '/chromedriver'
             )
+        )
+
+        self.verify_chrome_for_testing_version_with_selenium(
+            expected_version=assets.active_version
         )
