@@ -17,6 +17,7 @@ class C4tTests(unittest.TestCase):
 
     @classmethod
     def setUpClass(cls) -> None:
+        cls.assets_dir = './assets'
         cls.chrome_options = ChromeOptions()
         cls.chrome_options.binary_location = c4t.location.chrome
         cls.chrome_service = ChromeService(
@@ -49,21 +50,20 @@ class C4tTests(unittest.TestCase):
         browser.quit()    
 
     def test_001_installation_of_default_latest_stable_version(self):
-        assets_dir = './assets'
-        rmtree(assets_dir) if os.path.exists(assets_dir) else None
+        rmtree(self.assets_dir) if os.path.exists(self.assets_dir) else None
             
         assets = c4t.Assets()
-        self.assertTrue(os.path.isdir('./assets'))
+        self.assertTrue(os.path.isdir(self.assets_dir))
         assets.install()
         self.assertTrue(type(assets.active_version) == str)
         self.assertTrue(
             os.path.exists(
-                f'{assets_dir}/{assets.active_version}/chrome-linux64/chrome'
+                f'{self.assets_dir}/{assets.active_version}/chrome-linux64/chrome'
             )
         )
         self.assertTrue(
             os.path.exists(
-                f'{assets_dir}/{assets.active_version}/chromedriver-linux64'
+                f'{self.assets_dir}/{assets.active_version}/chromedriver-linux64'
                 + '/chromedriver'
             )
         )
@@ -73,8 +73,7 @@ class C4tTests(unittest.TestCase):
         )
 
     def test_002_installation_of_a_specific_version_of_assets(self):
-        assets_dir = './assets'
-        rmtree(assets_dir) if os.path.exists(assets_dir) else None
+        rmtree(self.assets_dir) if os.path.exists(self.assets_dir) else None
             
         assets = c4t.Assets()
         self.assertTrue(os.path.isdir('./assets'))
@@ -83,12 +82,12 @@ class C4tTests(unittest.TestCase):
             assets.active_version == self._TestData.specific_version_of_assets)
         self.assertTrue(
             os.path.exists(
-                f'{assets_dir}/{assets.active_version}/chrome-linux64/chrome'
+                f'{self.assets_dir}/{assets.active_version}/chrome-linux64/chrome'
             )
         )
         self.assertTrue(
             os.path.exists(
-                f'{assets_dir}/{assets.active_version}/chromedriver-linux64'
+                f'{self.assets_dir}/{assets.active_version}/chromedriver-linux64'
                 + '/chromedriver'
             )
         )
