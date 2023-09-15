@@ -12,6 +12,9 @@ __version__ = '1.0.2'
 
 class C4tTests(unittest.TestCase):
 
+    class _TestData:
+        specific_version_of_assets = '116.0.5794.0'
+
     @classmethod
     def setUpClass(cls) -> None:
         pass
@@ -55,3 +58,24 @@ class C4tTests(unittest.TestCase):
         self.assertTrue(browser.title == 'Profile of p4irin · PyPI')
         time.sleep(5)
         browser.quit()
+
+    def test_003_installation_of_a_specific_version_of_assets(self):
+        assets_dir = './assets'
+        rmtree(assets_dir) if os.path.exists(assets_dir) else None
+            
+        assets = c4t.Assets()
+        self.assertTrue(os.path.isdir('./assets'))
+        assets.install(self._TestData.specific_version_of_assets)
+        self.assertTrue(
+            assets.active_version == self._TestData.specific_version_of_assets)
+        self.assertTrue(
+            os.path.exists(
+                f'{assets_dir}/{assets.active_version}/chrome-linux64/chrome'
+            )
+        )
+        self.assertTrue(
+            os.path.exists(
+                f'{assets_dir}/{assets.active_version}/chromedriver-linux64'
+                + '/chromedriver'
+            )
+        )
