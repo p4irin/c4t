@@ -44,7 +44,7 @@ import os
 import json
 import wget
 import zipfile
-from typing import Literal, List
+from typing import Literal, List, Union
 
 
 _path_to_assets = './assets'
@@ -246,9 +246,24 @@ browser.quit()
                 f'Symlink for {to_binary} version {version} already ' +
                 'exists. Skipping'
             )
+
+    @property
+    def active_version(self) -> Union[str, bool]:
+        """The active version of 'Chrome for Testing' assets installed.
         
-
-
+        Returns:
+            str: Representing the active version.
+            bool: False. No installed version was found.
+        """
+        symlink_to_chrome = f'{_path_to_assets}/chrome'
+        try:
+            version = os.readlink(symlink_to_chrome).split('/')[1]
+            return version
+        except FileNotFoundError:
+            print(f'Symlink {symlink_to_chrome} not found!')
+            print('Make sure you install a version of assets first!')
+            return False
+        
     def install(self, version: str='latest', platform: str='linux64') -> None:
         """Install either the default latest or a specific stable version.
         

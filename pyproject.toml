@@ -66,7 +66,7 @@ push = false
 "src/c4t/__init__.py" = [
   "^__version__ = '{version}'$",
 ]
-"tests/__init__.py" = [
+"tests/tests.py" = [
   "^__version__ = '{version}'$",
 ]
 "README.md" = [
