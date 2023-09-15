@@ -18,6 +18,7 @@ class C4tTests(unittest.TestCase):
     @classmethod
     def setUpClass(cls) -> None:
         cls.assets_dir = './assets'
+        rmtree(cls.assets_dir) if os.path.exists(cls.assets_dir) else None
         cls.chrome_options = ChromeOptions()
         cls.chrome_options.binary_location = c4t.location.chrome
         cls.chrome_service = ChromeService(
@@ -32,7 +33,7 @@ class C4tTests(unittest.TestCase):
 
     @classmethod
     def tearDownClass(cls) -> None:
-        pass
+        rmtree(cls.assets_dir) if os.path.exists(cls.assets_dir) else None
 
     def verify_chrome_for_testing_version_with_selenium(
             self, expected_version: str
@@ -49,9 +50,7 @@ class C4tTests(unittest.TestCase):
         )
         browser.quit()    
 
-    def test_001_installation_of_default_latest_stable_version(self):
-        rmtree(self.assets_dir) if os.path.exists(self.assets_dir) else None
-            
+    def test_001_installation_of_default_latest_stable_version(self):            
         assets = c4t.Assets()
         self.assertTrue(os.path.isdir(self.assets_dir))
         assets.install()
@@ -72,9 +71,7 @@ class C4tTests(unittest.TestCase):
             expected_version=assets.active_version
         )
 
-    def test_002_installation_of_a_specific_version_of_assets(self):
-        rmtree(self.assets_dir) if os.path.exists(self.assets_dir) else None
-            
+    def test_002_installation_of_a_specific_version_of_assets(self):     
         assets = c4t.Assets()
         self.assertTrue(os.path.isdir('./assets'))
         assets.install(self._TestData.specific_version_of_assets)
