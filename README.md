@@ -132,6 +132,12 @@ Version 117.0.5938.62 is the active version
 (venv) $ c4t install --version 116.0.5794.0
 ```
 
+#### Show the currently active version
+
+```bash
+(venv) $ c4t --active
+```
+
 ## Reference
 
 - [Blog](https://developer.chrome.com/blog/chrome-for-testing/)
