@@ -36,6 +36,10 @@ Taken from [the Chrome Developers Blog](https://developer.chrome.com/blog/chrome
 
 ## Verify
 
+### In a REPL
+
+#### Show version
+
 ```bash
 (venv) $ python
 Python 3.8.10 (default, Jun  2 2021, 10:49:15) 
@@ -47,15 +51,28 @@ Type "help", "copyright", "credits" or "license" for more information.
 >>>
 ```
 
-or
+### Or on the command line
+
+#### Show version
+
+```bash
+(venv) $ c4t --version
+v1.1.0
+(venv) $
+```
+
+#### Display package documentation
 
 ```bash
 (venv) $ python -m pydoc c4t
+(venv) $
 ```
 
 ## Usage
 
-### Install the default latest stable version
+### In code
+
+#### Install the default, the latest stable version and use it with Selenium
 
 ```bash
 Python 3.8.10 (default, May 26 2023, 14:05:08) 
@@ -89,6 +106,30 @@ Version 117.0.5938.62 is the active version
 >>> browser.close()
 >>> browser.quit()
 >>>
+```
+
+### On the command line
+
+#### Display command line help
+
+```bash
+(venv) $ c4t --help
+```
+
+```bash
+(venv) $ c4t install --help
+```
+
+#### Install the default, the latest stable version
+
+```bash
+(venv) $ c4t install
+```
+
+#### Install a specific version
+
+```bash
+(venv) $ c4t install --version 116.0.5794.0
 ```
 
 ## Reference

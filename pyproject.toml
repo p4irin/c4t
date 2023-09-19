@@ -39,6 +39,9 @@ test = [
   "selenium >= 4.12.0",
 ]
 
+[project.scripts]
+c4t = "c4t.cli:cli"
+
 [project.urls]
 "Homepage" = "https://github.com/p4irin/c4t"
 "Bug Tracker" = "https://github.com/p4irin/c4t/issues"
