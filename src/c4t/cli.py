@@ -4,7 +4,8 @@ from . import Assets, __version__
 def cli() -> None:
     parser = argparse.ArgumentParser(
         description="Install 'Chrome for Testing' assets.",
-        epilog='Reference: https://github.com/GoogleChromeLabs/chrome-for-testing'
+        epilog='Reference: https://github.com/GoogleChromeLabs/'
+               +'chrome-for-testing'
     )
 
     parser.add_argument(
@@ -15,6 +16,13 @@ def cli() -> None:
         help='Show version and exit.'
     )
 
+    parser.add_argument(
+        '-a',
+        '--active',
+        action='store_true',
+        help="Show the currently active version of 'Chrome for Testing' assets"
+             + " installed."
+    )
     sub_parsers = parser.add_subparsers(
         title='Commands',
         dest='command'
@@ -32,8 +40,13 @@ def cli() -> None:
     )
 
     args = parser.parse_args()
+    assets = Assets()
+
+    if args.active:
+        print("Active version of 'Chrome for Testing' assets installed: "
+              + f'{assets.active_version}'
+        )
 
     if args.command == 'install':
         print(f"Installing version '{args.version}'")
-        assets = Assets()
         assets.install(version=args.version)
