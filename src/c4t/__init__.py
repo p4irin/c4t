@@ -149,7 +149,12 @@ browser.quit()
         """
 
         for file in files:
-            os.chmod(f'{self._installation_path_of(for_binary)}/{file}', 0o755)
+            try:
+                os.chmod(f'{self._installation_path_of(for_binary)}/{file}', 0o755)
+            except FileNotFoundError:
+                # Some files were removed from the Chrome zip download
+                # Just move on to the next file
+                continue
 
     def _download(
             self,
