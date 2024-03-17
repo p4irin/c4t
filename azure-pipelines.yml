@@ -1,0 +1,70 @@
+# Python package
+# Create and test a Python package on multiple Python versions.
+# Add steps that analyze code, save the dist with the build record, publish to a PyPI-compatible index, and more:
+# https://docs.microsoft.com/azure/devops/pipelines/languages/python
+
+trigger:
+  - '*'
+  
+stages:
+  - stage: CI
+    jobs:
+      - job: BuildAndTest
+        pool:
+          vmImage: ubuntu-latest
+        strategy:
+          matrix:
+            Python38:
+              python.version: '3.8'
+            Python39:
+              python.version: '3.9'
+            Python310:
+              python.version: '3.10'
+
+        steps:
+          - task: UsePythonVersion@0
+            inputs:
+              versionSpec: '$(python.version)'
+            displayName: 'Use Python $(python.version)'
+
+          - script: |
+              python -m pip install ".[test]"
+            displayName: 'Install dependencies'
+
+          - script: |
+              python -m unittest -v tests.tests
+            displayName: 'Run unit tests'
+
+      - job: 'BuildAndUploadArtifacts'
+        pool:
+          vmImage: ubuntu-latest
+        strategy:
+          matrix:
+            Python38:
+              python.version: '3.8'
+        dependsOn: BuildAndTest
+        condition: succeeded()
+        steps:
+          - task: UsePythonVersion@0
+            inputs:
+              versionSpec: '$(python.version)'
+            displayName: 'Use Python $(python.version)'
+
+          - script: |
+              python -m pip install ".[dev]"
+            displayName: 'Install dependencies'
+
+          - script: |
+              python -m build
+            displayName: 'Build distribution packages'
+            condition: succeeded()
+
+          - task: TwineAuthenticate@1
+            displayName: Twine Authenticate
+            inputs:
+              artifactFeed: p4irin
+
+          - script: |
+              python -m twine upload -r p4irin --verbose --config-file $(PYPIRC_PATH) dist/*
+            displayName: Upload artifacts to Azure Artifacts
+  
