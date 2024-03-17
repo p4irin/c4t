@@ -21,6 +21,8 @@ class C4tTests(unittest.TestCase):
         rmtree(cls.assets_dir) if os.path.exists(cls.assets_dir) else None
         cls.chrome_options = ChromeOptions()
         cls.chrome_options.binary_location = c4t.location.chrome
+        cls.chrome_options.add_argument('--no-sandbox')
+        cls.chrome_options.add_argument('--headless')        
         cls.chrome_service = ChromeService(
             executable_path=c4t.location.chromedriver
         )
