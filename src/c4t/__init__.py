@@ -191,6 +191,22 @@ browser.quit()
             print(f'wget threw Exception {e}')
             raise e
         return binary_zip_file
+    
+    def extract_zip_with_permissions(self, zip_file: str, destination: str):
+        """Extract zip file and keep file permissions
+        
+        zipfile doesn't keep file permissions
+
+        Args:
+            zip_file: Relative path from working directory to the zip file
+            destination: Relative path from working directory
+        """
+        with zipfile.ZipFile(zip_file, 'r') as zip_ref:
+            for member in zip_ref.infolist():
+                zip_ref.extract(member, destination)
+                file_name = f'{destination}/{member.filename}'
+                permissions = member.external_attr >> 16
+                os.chmod(file_name, permissions)    
 
     def _unzip(
             self,
@@ -212,10 +228,9 @@ browser.quit()
         if os.path.isfile(binary_path):
             print(f'{from_zip_file} already unzipped. Skipping')
         else:
-            with zipfile.ZipFile(
-                    f'{self._download_dir}/{from_zip_file}'
-                 ) as zfh:
-                zfh.extractall(f'{self._download_dir}')
+            self.extract_zip_with_permissions(
+                f'{self._download_dir}/{from_zip_file}', f'{self._download_dir}'
+            )
 
     def _create_symlink(
             self,
@@ -356,26 +371,11 @@ browser.quit()
             for_platform='linux64'
         )
 
-        chrome_files_to_make_executable = [
-            "chrome", "chrome_crashpad_handler", "chrome_sandbox",
-            "chrome-wrapper", "libEGL.so", "libGLESv2.so",
-            "libvk_swiftshader.so", "libvulkan.so.1", "nacl_helper",
-            "nacl_helper_bootstrap", "nacl_irt_x86_64.nexe", "xdg-mime",
-            "xdg-settings"
-        ]
-
-        # zipfile doesn't preserve file permissions
-        self._make_executable(
-            chrome_files_to_make_executable, for_binary='chrome'
-        )
-
         self._unzip(
             binary='chromedriver',
             from_zip_file=chromedriver_zip_file,
             for_platform='linux64'
         )
-
-        self._make_executable(['chromedriver'], for_binary='chromedriver')
 
         self._create_symlink(
             to_binary='chrome',
