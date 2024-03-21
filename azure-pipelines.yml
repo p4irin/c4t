@@ -28,12 +28,26 @@ stages:
             displayName: 'Use Python $(python.version)'
 
           - script: |
-              python -m pip install ".[test]"
-            displayName: 'Install dependencies'
+              python -m pip install --upgrade pip
+              python -m pip install -e ".[test]"
+            displayName: 'Install project and test dependencies'
 
           - script: |
-              python -m unittest -v tests.tests
-            displayName: 'Run unit tests'
+              python -m pytest -v --junitxml=junit.xml --cov src/c4t/ --cov-report xml tests/*
+            displayName: 'Run tests and report code coverage'
+
+          - task: PublishTestResults@2
+            condition: succeededOrFailed()
+            inputs:
+              testResultsFormat: 'JUnit'
+              testResultsFiles: './junit.xml'
+            displayName: 'Publish test results to Azure Pipelines'
+
+          - task: PublishCodeCoverageResults@2
+            condition: succeededOrFailed()
+            inputs:
+              summaryFileLocation: './coverage.xml'
+            displayName: 'Publish code coverage results to Azure Pipelines'
 
       - job: 'BuildAndUploadArtifacts'
         pool:
