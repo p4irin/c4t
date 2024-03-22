@@ -4,7 +4,22 @@
 # https://docs.microsoft.com/azure/devops/pipelines/languages/python
 
 trigger:
-  - '*'
+  branches:
+    include:
+      - master
+  paths:
+    exclude:
+      - README.md
+      - LICENSE
+
+pr:
+  branches:
+    include:
+      - master
+  paths:
+    exclude:
+      - README.md
+      - LICENSE
   
 stages:
   - stage: CI
