@@ -88,7 +88,19 @@ stages:
         dependsOn: BuildAndTest
         condition: succeeded()
 
+        variables:
+          - name: pip_cache_dir
+            value: $(Pipeline.Workspace)/.pip
+
         steps:
+          - task: Cache@2
+            inputs:
+              key: 'pip | "$(Agent.OS)"'
+              restoreKeys: |
+                pip | "$(Agent.OS)"
+              path: $(pip_cache_dir)
+            displayName: Cache pip installs
+            
           - task: UsePythonVersion@0
             inputs:
               versionSpec: '$(python.version)'
