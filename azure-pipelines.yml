@@ -43,6 +43,8 @@ stages:
             displayName: 'Use Python $(python.version)'
 
           - script: |
+              python -m venv venv
+              source venv/bin/activate
               python -m pip install --upgrade pip
               python -m pip install -e ".[test]"
             displayName: 'Install project and test dependencies'
@@ -81,8 +83,11 @@ stages:
             displayName: 'Use Python $(python.version)'
 
           - script: |
-              python -m pip install ".[dev]"
-            displayName: 'Install dev dependencies'            
+              python -m venv venv
+              source venv/bin/activate
+              python -m pip install --upgrade pip
+              python -m pip install -e ".[dev]"
+            displayName: 'Install project and dev dependencies'            
 
           - script: |
               python -m build
