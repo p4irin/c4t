@@ -1,7 +1,6 @@
 import unittest
 import os
 import time
-from shutil import rmtree
 from selenium.webdriver import ChromeOptions, ChromeService, Chrome
 import c4t
 
@@ -18,7 +17,6 @@ class C4tTests(unittest.TestCase):
     @classmethod
     def setUpClass(cls) -> None:
         cls.assets_dir = './assets'
-        rmtree(cls.assets_dir) if os.path.exists(cls.assets_dir) else None
         cls.chrome_options = ChromeOptions()
         cls.chrome_options.binary_location = c4t.location.chrome
         cls.chrome_options.add_argument('--no-sandbox')
@@ -35,8 +33,8 @@ class C4tTests(unittest.TestCase):
 
     @classmethod
     def tearDownClass(cls) -> None:
-        rmtree(cls.assets_dir) if os.path.exists(cls.assets_dir) else None
-
+        pass
+    
     def verify_chrome_for_testing_version_with_selenium(
             self, expected_version: str
         ):
