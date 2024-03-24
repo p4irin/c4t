@@ -66,12 +66,17 @@ stages:
 
           - script: |
               python -m pip install --upgrade pip
-              python -m pip install -e ".[test]"
+              python -m pip install -e ".[lint,test]"
             displayName: 'Install project and test dependencies'
+
+          - script: |
+              python -m ruff check
+            displayName: 'Static code analysis'
 
           - script: |
               python -m pytest -v --junitxml=junit.xml --cov src/c4t/ --cov-report xml tests/*
             displayName: 'Run tests and report code coverage'
+            condition: succeeded()
 
           - task: PublishTestResults@2
             condition: succeededOrFailed()
@@ -115,8 +120,8 @@ stages:
             displayName: 'Use Python $(python.version)'
 
           - script: |
-              python -m pip install ".[dev]"
-            displayName: 'Install dev dependencies'            
+              python -m pip install ".[package]"
+            displayName: 'Install dependencies to package project'            
 
           - script: |
               python -m build
