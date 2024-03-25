@@ -70,8 +70,12 @@ stages:
             displayName: 'Install project and test dependencies'
 
           - script: |
+              python -m mypy src/
+            displayName: 'Static type checking'
+
+          - script: |
               python -m ruff check
-            displayName: 'Static code analysis'
+            displayName: 'Ruff it'
 
           - script: |
               python -m pytest -v --junitxml=junit.xml --cov src/c4t/ --cov-report xml tests/*
