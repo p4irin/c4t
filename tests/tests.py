@@ -54,7 +54,7 @@ class C4tTests(unittest.TestCase):
         assets = c4t.Assets()
         self.assertTrue(os.path.isdir(self.assets_dir))
         assets.install()
-        self.assertTrue(type(assets.active_version) == str)
+        self.assertTrue(isinstance(assets.active_version, str))
         self.assertTrue(
             os.path.exists(
                 f'{self.assets_dir}/{assets.active_version}/chrome-linux64/chrome'

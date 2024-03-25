@@ -66,22 +66,31 @@ stages:
 
           - script: |
               python -m pip install --upgrade pip
-              python -m pip install -e ".[test]"
+              python -m pip install -e ".[lint,test]"
             displayName: 'Install project and test dependencies'
+
+          - script: |
+              python -m mypy src/
+            displayName: 'Static type checking'
+
+          - script: |
+              python -m ruff check
+            displayName: 'Ruff it'
 
           - script: |
               python -m pytest -v --junitxml=junit.xml --cov src/c4t/ --cov-report xml tests/*
             displayName: 'Run tests and report code coverage'
+            condition: succeeded()
 
           - task: PublishTestResults@2
-            condition: succeededOrFailed()
+            condition: succeeded()
             inputs:
               testResultsFormat: 'JUnit'
               testResultsFiles: './junit.xml'
             displayName: 'Publish test results to Azure Pipelines'
 
           - task: PublishCodeCoverageResults@2
-            condition: succeededOrFailed()
+            condition: succeeded()
             inputs:
               summaryFileLocation: './coverage.xml'
             displayName: 'Publish code coverage results to Azure Pipelines'
@@ -115,8 +124,8 @@ stages:
             displayName: 'Use Python $(python.version)'
 
           - script: |
-              python -m pip install ".[dev]"
-            displayName: 'Install dev dependencies'            
+              python -m pip install ".[package]"
+            displayName: 'Install dependencies to package project'            
 
           - script: |
               python -m build
