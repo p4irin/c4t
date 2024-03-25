@@ -1,4 +1,8 @@
 [![Build Status](https://dev.azure.com/p4irin/c4t/_apis/build/status%2Fp4irin.c4t?branchName=master&jobName=BuildAndTest&configuration=BuildAndTest%20Python38)](https://dev.azure.com/p4irin/c4t/_build/latest?definitionId=5&branchName=master)
+![PyPI - Version](https://img.shields.io/pypi/v/c4t)
+![PyPI - Python Version](https://img.shields.io/pypi/pyversions/c4t)
+![PyPI - Format](https://img.shields.io/pypi/format/c4t)
+![PyPI - License](https://img.shields.io/pypi/l/c4t)
 [![Ruff](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/astral-sh/ruff/main/assets/badge/v2.json)](https://github.com/astral-sh/ruff)
 # c4t: Chrome for Testing - v1.2.2
 
