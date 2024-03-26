@@ -132,6 +132,18 @@ stages:
             displayName: 'Build distribution packages'
             condition: succeeded()
 
+          - task: CopyFiles@2
+            inputs:
+              contents: dist/*
+              targetFolder: $(Build.ArtifactStagingDirectory)
+            displayName: 'Copy artifacts to push to pipeline'
+
+          - task: PublishBuildArtifacts@1
+            inputs:
+              pathtoPublish: $(Build.ArtifactStagingDirectory)
+              artifactName: dist
+            displayName: Publish artifacts to pipeline         
+
           - task: TwineAuthenticate@1
             displayName: Twine Authenticate
             inputs:
