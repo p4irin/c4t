@@ -95,7 +95,7 @@ stages:
               summaryFileLocation: './coverage.xml'
             displayName: 'Publish code coverage results to Azure Pipelines'
 
-      - job: 'BuildAndUploadArtifacts'
+      - job: 'BuildAndPublishArtifactsToPipeline'
         pool:
           vmImage: ubuntu-latest
         strategy:
@@ -135,14 +135,52 @@ stages:
           - task: CopyFiles@2
             inputs:
               contents: dist/*
-              targetFolder: $(Build.ArtifactStagingDirectory)
+              targetFolder: $(Build.ArtifactStagingDirectory)/dist
             displayName: 'Copy artifacts to push to pipeline'
 
-          - task: PublishBuildArtifacts@1
+          - publish: '$(Build.ArtifactStagingDirectory)/dist'
+            displayName: 'Publish artifacts to pipeline'
+            artifact: drop
+      
+      - job: PublishArtifactsToAzureArtifacts
+        pool:
+          vmImage: ubuntu-latest
+        strategy:
+          matrix:
+            Python38:
+              python.version: '3.8'
+        dependsOn: 'BuildAndPublishArtifactsToPipeline'
+        condition: >
+          and(
+          succeeded(), and(
+          eq(variables['Build.SourceBranch'], 'refs/heads/master'),
+          eq(variables['Build.Reason'], 'Merge'))
+          )
+        
+        variables:
+          - name: pip_cache_dir
+            value: $(Pipeline.Workspace)/.pip
+
+        steps:
+          - task: Cache@2
             inputs:
-              pathtoPublish: $(Build.ArtifactStagingDirectory)
-              artifactName: dist
-            displayName: Publish artifacts to pipeline         
+              key: 'pip | "$(Agent.OS)"'
+              restoreKeys: |
+                pip | "$(Agent.OS)"
+              path: $(pip_cache_dir)
+            displayName: Cache pip installs
+            
+          - task: UsePythonVersion@0
+            inputs:
+              versionSpec: '$(python.version)'
+            displayName: 'Use Python $(python.version)'
+
+          - script: |
+              python -m pip install ".[package]"
+            displayName: 'Install dependencies to upload package to Azure Artifacts'
+
+          - download: current
+            artifact: drop
 
           - task: TwineAuthenticate@1
             displayName: Twine Authenticate
@@ -150,6 +188,5 @@ stages:
               artifactFeed: p4irin
 
           - script: |
-              python -m twine upload -r p4irin --verbose --skip-existing --config-file $(PYPIRC_PATH) dist/*
+              python -m twine upload -r p4irin --verbose --skip-existing --config-file $(PYPIRC_PATH) $(Pipeline.Workspace)/drop/dist/*
             displayName: Upload artifacts to Azure Artifacts
-  
