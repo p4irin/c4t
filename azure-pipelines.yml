@@ -154,7 +154,7 @@ stages:
           and(
           succeeded(), and(
           eq(variables['Build.SourceBranch'], 'refs/heads/master'),
-          eq(variables['Build.Reason'], 'Merge')
+          eq(variables['Build.Reason'], 'Merge'))
           )
         
         variables:
