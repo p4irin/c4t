@@ -152,9 +152,8 @@ stages:
         dependsOn: 'BuildAndPublishArtifactsToPipeline'
         condition: >
           and(
-          succeeded(), and(
-          eq(variables['Build.SourceBranch'], 'refs/heads/master'),
-          eq(variables['Build.Reason'], 'Merge'))
+          succeeded(),
+          eq(variables['Build.SourceBranch'], 'refs/heads/master')
           )
         
         variables:
