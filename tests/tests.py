@@ -6,7 +6,7 @@ import c4t
 
 __author__ = 'p4irin'
 __email__ = '139928764+p4irin@users.noreply.github.com'
-__version__ = '1.2.2'
+__version__ = '1.2.3'
 
 
 class C4tTests(unittest.TestCase):
