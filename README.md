@@ -4,7 +4,7 @@
 ![PyPI - Format](https://img.shields.io/pypi/format/c4t)
 ![PyPI - License](https://img.shields.io/pypi/l/c4t)
 [![Ruff](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/astral-sh/ruff/main/assets/badge/v2.json)](https://github.com/astral-sh/ruff)
-# c4t: Chrome for Testing - v1.2.3
+# c4t: Chrome for Testing - v1.2.4
 
 Install _Chrome for Testing_ assets. A flavor of Chrome, specifically for testing and a matching chromedriver. The version of assets installed are from the stable channel and currently only for _linux64_ platforms.
 
