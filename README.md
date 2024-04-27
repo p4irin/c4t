@@ -1,4 +1,5 @@
 [![Build Status](https://dev.azure.com/p4irin/c4t/_apis/build/status%2Fp4irin.c4t?branchName=master&jobName=BuildAndTest&configuration=BuildAndTest%20Python38)](https://dev.azure.com/p4irin/c4t/_build/latest?definitionId=5&branchName=master)
+[![c4t publish](https://github.com/p4irin/c4t/actions/workflows/python-publish.yml/badge.svg)](https://github.com/p4irin/c4t/actions/workflows/python-publish.yml)
 ![PyPI - Version](https://img.shields.io/pypi/v/c4t)
 ![PyPI - Python Version](https://img.shields.io/pypi/pyversions/c4t)
 ![PyPI - Format](https://img.shields.io/pypi/format/c4t)
