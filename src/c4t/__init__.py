@@ -47,7 +47,10 @@ import zipfile
 from typing import Literal, List, Union
 
 
-_path_to_assets = './assets'
+_default_path_to_assets = './assets'
+_path_to_assets = os.getenv(
+    'C4T_PATH_TO_ASSETS', _default_path_to_assets
+)
 
 
 class _Location:
@@ -116,11 +119,10 @@ browser.quit()
         Raises:
             SystemExit on unhandled exceptions.
         """
-        print('Create "assets" directory.')
         try:
             os.mkdir(_path_to_assets)
-        except FileExistsError:            
-            print('Skipping: The assets directory already exists.')
+        except FileExistsError:
+            pass
         except Exception as e:
             raise SystemExit(e)
         
