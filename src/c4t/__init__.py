@@ -119,11 +119,10 @@ browser.quit()
         Raises:
             SystemExit on unhandled exceptions.
         """
-        print('Create "assets" directory.')
         try:
             os.mkdir(_path_to_assets)
-        except FileExistsError:            
-            print('Skipping: The assets directory already exists.')
+        except FileExistsError:
+            pass
         except Exception as e:
             raise SystemExit(e)
         
