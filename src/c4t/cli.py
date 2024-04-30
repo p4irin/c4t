@@ -2,6 +2,18 @@ import argparse
 import os
 from . import Assets, __version__
 
+assets = Assets()
+
+
+def list_versions() -> list:
+    versions = []
+    for item in os.listdir(assets.path):
+        if os.path.isdir(f'{assets.path}/{item}'):
+            print(item)
+            versions.append(item)
+    return versions
+
+
 def cli() -> None:
     parser = argparse.ArgumentParser(
         description="Install 'Chrome for Testing' assets.",
@@ -51,7 +63,6 @@ def cli() -> None:
     )
 
     args = parser.parse_args()
-    assets = Assets()
 
     if args.active:
         print("Active version of 'Chrome for Testing' assets installed: "
