@@ -77,6 +77,4 @@ def cli() -> None:
         print(f'Path to assets: {assets.path}')
 
     if args.command == 'list':
-        for item in os.listdir(assets.path):
-            if os.path.isdir(f'{assets.path}/{item}'):
-                print(item)
+        list_versions()
