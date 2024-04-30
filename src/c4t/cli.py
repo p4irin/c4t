@@ -21,9 +21,9 @@ def select_version(versions: list) -> typing.Union[str, None]:
         selection = int(input("Select a version by number: ")) - 1
         return versions[selection]
     except ValueError:
-        return
+        return None
     except IndexError:
-        return
+        return None
 
 
 def cli() -> None:
