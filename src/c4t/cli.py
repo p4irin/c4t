@@ -1,5 +1,30 @@
 import argparse
+import os
+import typing
 from . import Assets, __version__
+
+assets = Assets()
+
+
+def list_versions() -> list:
+    versions = []
+    items = os.listdir(assets.path)
+    for n, item in enumerate(items, start=0):
+        if os.path.isdir(f'{assets.path}/{item}'):
+            print(f'{n} - {item}')
+            versions.append(item)
+    return versions
+
+
+def select_version(versions: list) -> typing.Union[str, None]:
+    try:
+        selection = int(input("Select a version by number: ")) - 1
+        return versions[selection]
+    except ValueError:
+        return None
+    except IndexError:
+        return None
+
 
 def cli() -> None:
     parser = argparse.ArgumentParser(
@@ -39,8 +64,22 @@ def cli() -> None:
              "The default is '%(default)s'"
     )
 
+    sub_parsers.add_parser(
+        'path',
+        help='Show the installation path of assets and exit.'
+    )
+
+    sub_parsers.add_parser(
+        'list',
+        help='Show installed versions.'
+    )
+
+    sub_parsers.add_parser(
+        'switch',
+        help='Switch the active version.'
+    )    
+
     args = parser.parse_args()
-    assets = Assets()
 
     if args.active:
         print("Active version of 'Chrome for Testing' assets installed: "
@@ -50,3 +89,15 @@ def cli() -> None:
     if args.command == 'install':
         print(f"Installing version '{args.version}'")
         assets.install(version=args.version)
+
+    if args.command == 'path':
+        print(f'Path to assets: {assets.path}')
+
+    if args.command == 'list':
+        list_versions()
+
+    if args.command == 'switch':
+        versions = list_versions()
+        version = select_version(versions)
+        if version is not None:
+            assets.switch(to_version=version)

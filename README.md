@@ -87,9 +87,8 @@ Python 3.8.10 (default, May 26 2023, 14:05:08)
 Type "help", "copyright", "credits" or "license" for more information.
 >>> import c4t
 >>> assets = c4t.Assets()
-Create "assets" directory.
 >>> assets.install()
-Create directory ./assets/117.0.5938.62
+Create directory ${HOME}/.c4t-assets/124.0.6367.91
 Downloading chrome-linux64.zip.
 100% [......................................................................] 146689409 / 146689409
 
@@ -130,6 +129,10 @@ Version 117.0.5938.62 is the active version
 #### Install the default, the latest stable version
 
 ```bash
+# By default assets are installed in ${HOME}/.c4t-assets
+# To use a different path, set the C4T_PATH_TO_ASSETS environment variable.
+# e.g.: export C4T_PATH_TO_ASSETS=<path>
+# Add this export to your .bashrc so the path is set for every bash session.
 (venv) $ c4t install
 ```
 
@@ -143,7 +146,43 @@ Version 117.0.5938.62 is the active version
 
 ```bash
 (venv) $ c4t --active
+Active version of 'Chrome for Testing' assets installed: 124.0.6367.91
 ```
+
+#### Show installation path of assets
+
+```bash
+(venv) $ c4t path
+Path to assets: /home/p4irin/.c4t-assets
+```
+
+#### Show a list of installed versions
+
+```bash
+(venv) $ c4t list
+1 - 124.0.6367.91
+2 - 116.0.5794.0
+```
+
+#### Switch active version
+
+```bash
+(venv) $ c4t switch
+1 - 124.0.6367.91
+2 - 116.0.5794.0
+Select a version by number: 2
+Creating symlink to chrome version 116.0.5794.0
+Creating symlink to chromedriver version 116.0.5794.0
+Active version is now: 116.0.5794.0
+```
+
+### Common workflow
+
+1. Install one or more versions of Chrome for testing assets
+1. Set/switch the active version
+1. Run your Selenium Webdriver tests with the active version of Chrome for testing
+
+This allows for quickly switching back to a previous version of Chrome to run your tests against in case of a regression on a recent/latest version. For example, a test failing against the latest of Chrome, did it pass consistently on the previous version or is it flaky and in need for a more robust implementation?
 
 ## Reference
 

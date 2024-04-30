@@ -41,6 +41,8 @@ stages:
           # so this will override pip's default cache dir
           - name: pip_cache_dir
             value: $(Pipeline.Workspace)/.pip
+          - name: C4T_PATH_TO_ASSETS
+            value: $(Pipeline.Workspace)/.c4t-assets
 
         steps:
           - task: Cache@2
@@ -53,10 +55,10 @@ stages:
 
           - task: Cache@2
             inputs:
-              key: 'assets | "$(Agent.OS)"'
+              key: 'c4t-assets | "$(Agent.OS)"'
               restoreKeys: |
-                assets | "$(Agent.OS)"
-              path: ./assets
+                c4t-assets | "$(Agent.OS)"
+              path: $(C4T_PATH_TO_ASSETS)
             displayName: Cache assets directory
 
           - task: UsePythonVersion@0
