@@ -99,5 +99,5 @@ def cli() -> None:
     if args.command == 'switch':
         versions = list_versions()
         version = select_version(versions)
-        if not version is None:
+        if version is not None:
             assets.switch(to_version=version)
