@@ -53,10 +53,10 @@ stages:
 
           - task: Cache@2
             inputs:
-              key: 'assets | "$(Agent.OS)"'
+              key: 'c4t-assets | "$(Agent.OS)"'
               restoreKeys: |
-                assets | "$(Agent.OS)"
-              path: ./assets
+                c4t-assets | "$(Agent.OS)"
+              path: ${HOME}/.c4t-assets
             displayName: Cache assets directory
 
           - task: UsePythonVersion@0

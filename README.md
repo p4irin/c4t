@@ -87,9 +87,8 @@ Python 3.8.10 (default, May 26 2023, 14:05:08)
 Type "help", "copyright", "credits" or "license" for more information.
 >>> import c4t
 >>> assets = c4t.Assets()
-Create "assets" directory.
 >>> assets.install()
-Create directory ./assets/117.0.5938.62
+Create directory ${HOME}/.c4t-assets/124.0.6367.91
 Downloading chrome-linux64.zip.
 100% [......................................................................] 146689409 / 146689409
 
@@ -130,6 +129,10 @@ Version 117.0.5938.62 is the active version
 #### Install the default, the latest stable version
 
 ```bash
+# By default assets are installed in ${HOME}/.c4t-assets
+# To use a different path, set the C4T_PATH_TO_ASSETS environment variable.
+# e.g.: export C4T_PATH_TO_ASSETS=<path>
+# Add this export to your .bashrc for every bash session.
 (venv) $ c4t install
 ```
 

@@ -2,16 +2,17 @@
 
 By default, if none specified, the latest version of assets, compatible
 binaries of 'Chrome for Testing' and chromedriver, are installed. Different
-versions of assets will be installed in their own './assets/<version>'
-directory relative to the current working directory. Once a version is
+versions of assets will be installed in their own
+'${HOME}/.c4t-assets/<version>' directory. Once a version is
 successfully installed it will be the 'active' version by symlinking
-'./assets/chrome' and './assets/chromedriver' to the last installed version of
-assets in './assets/<version>/chrome-linux64/chrome' and
-'./assets/<version>/chromedriver-linux64/chromedriver' respectively.
+'${HOME}/.c4t-assets/chrome' and '${HOME}/.c4t-assets/chromedriver'
+to the last installed version of
+assets in '${HOME}/.c4t-assets/<version>/chrome-linux64/chrome' and
+'${HOME}/.c4t-assets/<version>/chromedriver-linux64/chromedriver' respectively.
 Installing the 'active' version of assets again will not touch the installation
 of that version. The same goes for installing a previously installed version
-except that it will change the symlinks in './assets/' to the assets of that
-version, effectively making that version 'active'.
+except that it will change the symlinks in '${HOME}/.c4t-assets/' to the assets
+of that version, effectively making that version 'active'.
 
 N.B: Currently installs assets for linux64 platform only
 
@@ -47,7 +48,7 @@ import zipfile
 from typing import Literal, List, Union
 
 
-_default_path_to_assets = './assets'
+_default_path_to_assets = f'{os.environ["HOME"]}/.c4t-assets'
 _path_to_assets = os.getenv(
     'C4T_PATH_TO_ASSETS', _default_path_to_assets
 )
