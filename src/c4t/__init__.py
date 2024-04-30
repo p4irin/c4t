@@ -393,3 +393,7 @@ browser.quit()
         )
 
         print(self._successful_installation_message.format(version=version))
+
+    @property
+    def path(self) -> str:
+        return _path_to_assets

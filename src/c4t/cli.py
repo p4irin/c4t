@@ -39,6 +39,11 @@ def cli() -> None:
              "The default is '%(default)s'"
     )
 
+    sp_set = sub_parsers.add_parser(
+        'path',
+        help='Show the installation path of assets and exit.'
+    )
+
     args = parser.parse_args()
     assets = Assets()
 
@@ -50,3 +55,6 @@ def cli() -> None:
     if args.command == 'install':
         print(f"Installing version '{args.version}'")
         assets.install(version=args.version)
+
+    if args.command == 'path':
+        print(f'Path to assets: {assets.path}')
