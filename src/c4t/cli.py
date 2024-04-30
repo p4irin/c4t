@@ -1,4 +1,5 @@
 import argparse
+import os
 from . import Assets, __version__
 
 def cli() -> None:
@@ -39,9 +40,14 @@ def cli() -> None:
              "The default is '%(default)s'"
     )
 
-    sp_set = sub_parsers.add_parser(
+    sub_parsers.add_parser(
         'path',
         help='Show the installation path of assets and exit.'
+    )
+
+    sub_parsers.add_parser(
+        'list',
+        help='Show installed versions.'
     )
 
     args = parser.parse_args()
@@ -58,3 +64,8 @@ def cli() -> None:
 
     if args.command == 'path':
         print(f'Path to assets: {assets.path}')
+
+    if args.command == 'list':
+        for item in os.listdir(assets.path):
+            if os.path.isdir(f'{assets.path}/{item}'):
+                print(item)
