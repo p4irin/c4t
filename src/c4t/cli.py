@@ -69,9 +69,21 @@ def cli() -> None:
         help='Show the installation path of assets and exit.'
     )
 
-    sub_parsers.add_parser(
+    sp_list = sub_parsers.add_parser(
         'list',
-        help='Show installed versions.'
+        help='List versions'
+    )
+    sp_list.add_argument(
+        '-i',
+        '--installed',
+        action='store_true',
+        help='List installed versions'
+    )
+    sp_list.add_argument(
+        '-l',
+        '--last-known-good-versions',
+        action='store_true',
+        help='List last known good versions'
     )
 
     sub_parsers.add_parser(
@@ -94,7 +106,10 @@ def cli() -> None:
         print(f'Path to assets: {assets.path}')
 
     if args.command == 'list':
-        list_versions()
+        if args.installed:
+            list_versions()
+        if args.last_known_good_versions:
+            pass
 
     if args.command == 'switch':
         versions = list_versions()
