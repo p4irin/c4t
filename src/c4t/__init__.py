@@ -402,3 +402,32 @@ browser.quit()
         self._create_symlink(to_binary='chrome', version=to_version)
         self._create_symlink(to_binary='chromedriver', version=to_version)
         print(f'Active version is now: {to_version}')
+
+    def installed(self) -> list:
+        """List installed versions"""
+
+        versions = []
+        items = os.listdir(self.path)
+        for n, item in enumerate(items, start=0):
+            if os.path.isdir(f'{self.path}/{item}'):
+                print(f'{n} - {item}')
+                versions.append(item)
+        return versions
+    
+    def switch(self) -> None:
+        """Switch the active version"""
+
+        versions = self.installed()
+
+        try:
+            selection = int(input("Select a version by number: ")) - 1
+        except ValueError:
+            selection = None
+        except IndexError:
+            selection = None
+
+        if selection is not None:
+            version = versions[selection]
+            self._create_symlink(to_binary='chrome', version=version)
+            self._create_symlink(to_binary='chromedriver', version=version)
+            print(f'Active version is now: {version}')
