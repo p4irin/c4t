@@ -402,7 +402,7 @@ browser.quit()
         """List installed versions"""
 
         versions = []
-        items = os.listdir(self.path)
+        items = [item for item in os.listdir(self.path) if os.path.isdir(f'{self.path}/{item}')]
         for n, item in enumerate(items, start=0):
             if os.path.isdir(f'{self.path}/{item}'):
                 print(f'{n} - {item}')
@@ -415,7 +415,7 @@ browser.quit()
         versions = self.installed()
 
         try:
-            selection = int(input("Select a version by number: ")) - 1
+            selection = int(input("Select a version by number: "))
         except ValueError:
             selection = None
         except IndexError:
