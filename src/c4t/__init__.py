@@ -397,11 +397,6 @@ browser.quit()
     @property
     def path(self) -> str:
         return _path_to_assets
-    
-    def switch(self, to_version: str) -> None:
-        self._create_symlink(to_binary='chrome', version=to_version)
-        self._create_symlink(to_binary='chromedriver', version=to_version)
-        print(f'Active version is now: {to_version}')
 
     def installed(self) -> list:
         """List installed versions"""
