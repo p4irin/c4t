@@ -403,6 +403,7 @@ browser.quit()
 
         versions = []
         items = [item for item in os.listdir(self.path) if os.path.isdir(f'{self.path}/{item}')]
+        items.sort()
         for n, item in enumerate(items, start=0):
             if os.path.isdir(f'{self.path}/{item}'):
                 print(f'{n} - {item}')
