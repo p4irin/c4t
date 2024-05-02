@@ -397,8 +397,65 @@ browser.quit()
     @property
     def path(self) -> str:
         return _path_to_assets
+
+    def installed(self, output: bool=True) -> List[str]:
+        """List installed versions"""
+
+        versions = []
+        items = [item for item in os.listdir(self.path) if os.path.isdir(f'{self.path}/{item}')]
+        items.sort()
+        for n, item in enumerate(items, start=0):
+            if os.path.isdir(f'{self.path}/{item}'):
+                if output:
+                    print(f'{n} - {item}')
+                versions.append(item)
+        return versions
     
-    def switch(self, to_version: str) -> None:
-        self._create_symlink(to_binary='chrome', version=to_version)
-        self._create_symlink(to_binary='chromedriver', version=to_version)
-        print(f'Active version is now: {to_version}')
+    def _isinstalled(self, version: str) -> bool:
+        installed_versions = self.installed(output=False)
+        if version in installed_versions:
+            return True
+        else:
+            return False
+    
+    def switch(self) -> None:
+        """Switch the active version"""
+
+        versions = self.installed()
+
+        try:
+            selection = int(input("Select a version by number: "))
+        except ValueError:
+            selection = None
+        except IndexError:
+            selection = None
+
+        if selection is not None:
+            version = versions[selection]
+            self._create_symlink(to_binary='chrome', version=version)
+            self._create_symlink(to_binary='chromedriver', version=version)
+            print(f'Active version is now: {version}')
+
+    def last_known_good_versions(self) -> List[str]:
+        """List last known good versions"""
+
+        versions = []
+        try:
+            r = requests.get(
+                self._last_known_good_versions_json_api_endpoint
+            )
+        except requests.exceptions.RequestException as e:
+            raise SystemExit(e)
+        
+        json_response = json.loads(r.text)
+        channels = json_response['channels']
+        for n, channel in enumerate(channels, start=0):
+            version = channels[channel]['version']
+            revision = channels[channel]['revision']
+            if self._isinstalled(version):
+                installed = ', installed'
+            else:
+                installed = ''
+            print(f'{n} - {channel} version={version}, revision={revision}{installed}')
+            versions.append(version)
+        return versions
