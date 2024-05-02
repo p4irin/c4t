@@ -73,11 +73,6 @@ def cli() -> None:
 
     args = parser.parse_args()
 
-    if args.active:
-        print("Active version of 'Chrome for Testing' assets installed: "
-              + f'{assets.active_version}'
-        )
-
     if args.command == 'install':
         print(f"Installing version '{args.version}'")
         assets.install(version=args.version)
@@ -88,6 +83,10 @@ def cli() -> None:
     if args.command == 'list':
         if args.installed:
             assets.installed()
+        if args.active:
+            print("Active version of 'Chrome for Testing' assets installed: "
+                + f'{assets.active_version}'
+        )
         if args.last_known_good_versions:
             pass
 
