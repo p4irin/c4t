@@ -398,7 +398,7 @@ browser.quit()
     def path(self) -> str:
         return _path_to_assets
 
-    def installed(self) -> List[str]:
+    def installed(self, output: bool=True) -> List[str]:
         """List installed versions"""
 
         versions = []
@@ -406,9 +406,17 @@ browser.quit()
         items.sort()
         for n, item in enumerate(items, start=0):
             if os.path.isdir(f'{self.path}/{item}'):
-                print(f'{n} - {item}')
+                if output:
+                    print(f'{n} - {item}')
                 versions.append(item)
         return versions
+    
+    def _isinstalled(self, version: str) -> bool:
+        installed_versions = self.installed(output=False)
+        if version in installed_versions:
+            return True
+        else:
+            return False
     
     def switch(self) -> None:
         """Switch the active version"""
@@ -444,6 +452,10 @@ browser.quit()
         for n, channel in enumerate(channels, start=0):
             version = channels[channel]['version']
             revision = channels[channel]['revision']
-            print(f'{n} - {channel} version={version}, revision={revision}')
+            if self._isinstalled(version):
+                installed = ', installed'
+            else:
+                installed = ''
+            print(f'{n} - {channel} version={version}, revision={revision}{installed}')
             versions.append(version)
         return versions
