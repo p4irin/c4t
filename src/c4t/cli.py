@@ -1,6 +1,4 @@
 import argparse
-import os
-import typing
 from . import Assets, __version__
 
 assets = Assets()
