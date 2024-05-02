@@ -407,7 +407,8 @@ browser.quit()
         for n, item in enumerate(items, start=0):
             if os.path.isdir(f'{self.path}/{item}'):
                 if output:
-                    print(f'{n} - {item}')
+                    active = ', active' if item == self.active_version else ''
+                    print(f'{n} - {item}{active}')
                 versions.append(item)
         return versions
     
