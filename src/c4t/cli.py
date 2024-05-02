@@ -21,13 +21,6 @@ def cli() -> None:
         help='Show version and exit.'
     )
 
-    parser.add_argument(
-        '-a',
-        '--active',
-        action='store_true',
-        help="Show the currently active version of 'Chrome for Testing' assets"
-             + " installed."
-    )
     sub_parsers = parser.add_subparsers(
         title='Commands',
         dest='command'
@@ -52,6 +45,13 @@ def cli() -> None:
     sp_list = sub_parsers.add_parser(
         'list',
         help='List versions'
+    )
+    sp_list.add_argument(
+        '-a',
+        '--active',
+        action='store_true',
+        help="List the currently active version of 'Chrome for Testing' assets"
+             + " installed."
     )
     sp_list.add_argument(
         '-i',
