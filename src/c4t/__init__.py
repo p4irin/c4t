@@ -398,7 +398,7 @@ browser.quit()
     def path(self) -> str:
         return _path_to_assets
 
-    def installed(self) -> list:
+    def installed(self) -> List[str]:
         """List installed versions"""
 
         versions = []
