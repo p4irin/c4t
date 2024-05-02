@@ -26,9 +26,11 @@ def cli() -> None:
         dest='command'
     )
 
+    help_install = "Install a version of 'Chrome for Testing' assets."
     sp_install = sub_parsers.add_parser(
         'install',
-        help="Install a version of 'Chrome for Testing' assets."
+        description=help_install,
+        help=help_install
     )
     sp_install.add_argument(
         '--version',
@@ -37,14 +39,18 @@ def cli() -> None:
              "The default is '%(default)s'"
     )
 
+    help_path = 'Show the installation path of assets and exit.'
     sub_parsers.add_parser(
         'path',
-        help='Show the installation path of assets and exit.'
+        description=help_path,
+        help=help_path
     )
 
+    help_list = 'List versions'
     sp_list = sub_parsers.add_parser(
         'list',
-        help='List versions'
+        description=help_list,
+        help=help_list
     )
     sp_list.add_argument(
         '-a',
@@ -66,9 +72,11 @@ def cli() -> None:
         help='List last known good versions'
     )
 
+    help_switch = 'Switch the active version.'
     sub_parsers.add_parser(
         'switch',
-        help='Switch the active version.'
+        description=help_switch,
+        help=help_switch
     )    
 
     args = parser.parse_args()
