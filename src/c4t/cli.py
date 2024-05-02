@@ -96,7 +96,7 @@ def cli() -> None:
                 + f'{assets.active_version}'
         )
         if args.last_known_good_versions:
-            pass
+            assets.last_known_good_versions()
 
     if args.command == 'switch':
         assets.switch()

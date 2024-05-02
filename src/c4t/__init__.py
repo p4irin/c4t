@@ -427,3 +427,23 @@ browser.quit()
             self._create_symlink(to_binary='chrome', version=version)
             self._create_symlink(to_binary='chromedriver', version=version)
             print(f'Active version is now: {version}')
+
+    def last_known_good_versions(self) -> List[str]:
+        """List last known good versions"""
+
+        versions = []
+        try:
+            r = requests.get(
+                self._last_known_good_versions_json_api_endpoint
+            )
+        except requests.exceptions.RequestException as e:
+            raise SystemExit(e)
+        
+        json_response = json.loads(r.text)
+        channels = json_response['channels']
+        for n, channel in enumerate(channels, start=0):
+            version = channels[channel]['version']
+            revision = channels[channel]['revision']
+            print(f'{n} - {channel} version={version}, revision={revision}')
+            versions.append(version)
+        return versions
