@@ -36,6 +36,12 @@ def cli() -> None:
         help="The version of 'Chrome for Testing' assets to install. " +
              "The default is '%(default)s'"
     )
+    sp_install.add_argument(
+        '-l',
+        '--last-known-good-version',
+        action='store_true',
+        help='Install a last known good version from a list'
+    )
 
     help_path = 'Show the installation path of assets and exit.'
     sub_parsers.add_parser(
@@ -80,8 +86,11 @@ def cli() -> None:
     args = parser.parse_args()
 
     if args.command == 'install':
-        print(f"Installing version '{args.version}'")
-        assets.install(version=args.version)
+        if args.last_known_good_version:
+            assets.install_last_known_good_version()
+        else:
+            print(f"Installing version '{args.version}'")
+            assets.install(version=args.version)
 
     if args.command == 'path':
         print(f'Path to assets: {assets.path}')

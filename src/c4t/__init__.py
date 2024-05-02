@@ -460,3 +460,15 @@ browser.quit()
             print(f'{n} - {channel} version={version}, revision={revision}{installed}')
             versions.append(version)
         return versions
+    
+    def install_last_known_good_version(self) -> None:
+        versions = self.last_known_good_versions()
+        try:
+            selection = int(input('Select a version by number: '))
+        except ValueError:
+            selection = None
+        except IndexError:
+            selection = None
+
+        if selection is not None:
+            self.install(version=versions[selection])
