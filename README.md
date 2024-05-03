@@ -7,7 +7,7 @@
 [![Ruff](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/astral-sh/ruff/main/assets/badge/v2.json)](https://github.com/astral-sh/ruff)
 # c4t: Chrome for Testing - v1.4.0
 
-Install _Chrome for Testing_ assets. A flavor of Chrome, specifically for testing and a matching chromedriver. The version of assets installed are currently only for _linux64_ platforms.
+Install _Chrome for Testing_ assets. A flavor of Chrome, specifically for testing and a matching chromedriver. Currently, the version of assets installed is for _linux64_ platforms only.
 
 ## Why Chrome for Testing?
 
@@ -120,10 +120,35 @@ Version 117.0.5938.62 is the active version
 
 ```bash
 (venv) $ c4t --help
+usage: c4t [-h] [-V] {install,path,list,switch} ...
+
+Install 'Chrome for Testing' assets.
+
+options:
+  -h, --help            show this help message and exit
+  -V, --version         Show version and exit.
+
+Commands:
+  {install,path,list,switch}
+    install             Install a version of 'Chrome for Testing' assets.
+    path                Show the installation path of assets and exit.
+    list                List versions
+    switch              Switch the active version.
+
+Reference: https://github.com/GoogleChromeLabs/chrome-for-testing
 ```
 
 ```bash
 (venv) $ c4t install --help
+usage: c4t install [-h] [--version VERSION] [-l]
+
+Install a version of 'Chrome for Testing' assets.
+
+options:
+  -h, --help            show this help message and exit
+  --version VERSION     The version of 'Chrome for Testing' assets to install. The default is 'latest'
+  -l, --last-known-good-version
+                        Install a last known good version from a list
 ```
 
 #### Install the default, the latest stable version
@@ -142,11 +167,16 @@ Version 117.0.5938.62 is the active version
 (venv) $ c4t install --version 116.0.5794.0
 ```
 
-#### Show the currently active version
+#### Install a last known good version from a list
 
 ```bash
-(venv) $ c4t --active
-Active version of 'Chrome for Testing' assets installed: 124.0.6367.91
+# Notice the list also indicates versions you already installed
+(venv) $ c4t install -l
+0 - Stable version=124.0.6367.91, revision=1274542, installed
+1 - Beta version=125.0.6422.26, revision=1287751
+2 - Dev version=126.0.6439.0, revision=1292160, installed
+3 - Canary version=126.0.6449.0, revision=1293886
+Select a version by number:
 ```
 
 #### Show installation path of assets
@@ -156,21 +186,43 @@ Active version of 'Chrome for Testing' assets installed: 124.0.6367.91
 Path to assets: /home/p4irin/.c4t-assets
 ```
 
+#### Show the currently active version
+
+```bash
+(venv) $ c4t list --active
+Active version of 'Chrome for Testing' assets installed: 124.0.6367.91
+```
+
 #### Show a list of installed versions
 
 ```bash
-(venv) $ c4t list
-1 - 124.0.6367.91
-2 - 116.0.5794.0
+# Notice the active version is marked 'active'
+(venv) $ c4t list --installed
+0 - 116.0.5794.0
+1 - 124.0.6367.91, active
+2 - 125.0.6422.14
+3 - 126.0.6439.0
+```
+
+#### Show a list of last known good versions
+
+```bash
+(venv) $ c4t list --last-known-good-versions
+0 - Stable version=124.0.6367.91, revision=1274542, installed
+1 - Beta version=125.0.6422.26, revision=1287751
+2 - Dev version=126.0.6439.0, revision=1292160, installed
+3 - Canary version=126.0.6449.0, revision=1293886
 ```
 
 #### Switch active version
 
 ```bash
 (venv) $ c4t switch
-1 - 124.0.6367.91
-2 - 116.0.5794.0
-Select a version by number: 2
+0 - 116.0.5794.0
+1 - 124.0.6367.91, active
+2 - 125.0.6422.14
+3 - 126.0.6439.0
+Select a version by number: 0
 Creating symlink to chrome version 116.0.5794.0
 Creating symlink to chromedriver version 116.0.5794.0
 Active version is now: 116.0.5794.0
@@ -182,7 +234,7 @@ Active version is now: 116.0.5794.0
 1. Set/switch the active version
 1. Run your Selenium Webdriver tests with the active version of Chrome for testing
 
-This allows for quickly switching back to a previous version of Chrome to run your tests against in case of a regression on a recent/latest version. For example, a test failing against the latest of Chrome, did it pass consistently on the previous version or is it flaky and in need for a more robust implementation?
+E.g., this allows for quickly switching back to a previous version of Chrome to run your tests against in case of a regression on a recent/latest version. For example, a test failing against the latest of Chrome, did it pass consistently on the previous version or is it flaky and in need for a more robust implementation?
 
 ## Reference
 
