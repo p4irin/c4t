@@ -6,7 +6,7 @@ assets = Assets()
 
 def cli() -> None:
     parser = argparse.ArgumentParser(
-        description="Install 'Chrome for Testing' assets.",
+        description="Install 'Chrome for Testing' assets",
         epilog='Reference: https://github.com/GoogleChromeLabs/'
                +'chrome-for-testing'
     )
@@ -24,7 +24,7 @@ def cli() -> None:
         dest='command'
     )
 
-    help_install = "Install a version of 'Chrome for Testing' assets."
+    help_install = "Install a version of 'Chrome for Testing' assets"
     sp_install = sub_parsers.add_parser(
         'install',
         description=help_install,
@@ -43,7 +43,7 @@ def cli() -> None:
         help='Install a last known good version from a list'
     )
 
-    help_path = 'Show the installation path of assets and exit.'
+    help_path = 'Show the installation path of assets and exit'
     sub_parsers.add_parser(
         'path',
         description=help_path,
@@ -76,12 +76,19 @@ def cli() -> None:
         help='List last known good versions'
     )
 
-    help_switch = 'Switch the active version.'
+    help_switch = 'Switch the active version'
     sub_parsers.add_parser(
         'switch',
         description=help_switch,
         help=help_switch
-    )    
+    )
+
+    help_delete = 'Delete an installed version'
+    sub_parsers.add_parser(
+        'delete',
+        description=help_delete,
+        help=help_delete
+    )
 
     args = parser.parse_args()
 
@@ -107,3 +114,6 @@ def cli() -> None:
 
     if args.command == 'switch':
         assets.switch()
+
+    if args.command == 'delete':
+        assets.delete()

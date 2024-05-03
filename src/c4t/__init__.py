@@ -45,6 +45,7 @@ import os
 import json
 import wget
 import zipfile
+import shutil
 from typing import Literal, List, Union
 
 
@@ -472,3 +473,22 @@ browser.quit()
 
         if selection is not None:
             self.install(version=versions[selection])
+
+    def delete(self) -> None:
+        versions = self.installed()
+
+        try:
+            selection = int(input("Select a version by number: "))
+        except ValueError:
+            selection = None
+        except IndexError:
+            selection = None
+
+        if selection is not None:
+            version = versions[selection]
+            if version == self.active_version:
+                print('The version you selected is the active version.')
+                print('Switch the active version first!')
+                return
+            shutil.rmtree(f'{self.path}/{version}')
+            print(f'Deleted version {versions[selection]}')
