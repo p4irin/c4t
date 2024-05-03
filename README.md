@@ -9,6 +9,10 @@
 
 Install _Chrome for Testing_ assets. A flavor of Chrome, specifically for testing and a matching chromedriver. Currently, the version of assets installed is for _linux64_ platforms only.
 
+## Requirements
+
+To use Chrome for Testing assets you'll need a version of Selenium > 4.11.0
+
 ## Why Chrome for Testing?
 
 Taken from [the Chrome Developers Blog](https://developer.chrome.com/blog/chrome-for-testing/)
