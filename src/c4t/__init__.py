@@ -427,13 +427,12 @@ browser.quit()
 
         try:
             selection = int(input("Select a version by number: "))
-        except ValueError:
-            selection = None
-        except IndexError:
+            version = versions[selection]
+        except (ValueError, IndexError):
+            print(f'Invalid selection. Select a number from 0 to {len(versions) - 1}!')
             selection = None
 
         if selection is not None:
-            version = versions[selection]
             self._create_symlink(to_binary='chrome', version=version)
             self._create_symlink(to_binary='chromedriver', version=version)
             print(f'Active version is now: {version}')
@@ -466,26 +465,25 @@ browser.quit()
         versions = self.last_known_good_versions()
         try:
             selection = int(input('Select a version by number: '))
-        except ValueError:
-            selection = None
-        except IndexError:
+            version = versions[selection]
+        except (ValueError, IndexError):
+            print(f'Invalid selection. Select a number from 0 to {len(versions) - 1}!')
             selection = None
 
         if selection is not None:
-            self.install(version=versions[selection])
+            self.install(version=version)
 
     def delete(self) -> None:
         versions = self.installed()
 
         try:
             selection = int(input("Select a version by number: "))
-        except ValueError:
-            selection = None
-        except IndexError:
+            version = versions[selection]
+        except (ValueError, IndexError):
+            print(f'Invalid selection. Select a number from 0 to {len(versions) - 1}!')
             selection = None
 
         if selection is not None:
-            version = versions[selection]
             if version == self.active_version:
                 print('The version you selected is the active version.')
                 print('Switch the active version first!')
