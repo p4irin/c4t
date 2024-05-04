@@ -9,10 +9,6 @@
 
 Install _Chrome for Testing_ assets. A flavor of Chrome, specifically for testing and a matching chromedriver. Currently, the version of assets installed is for _linux64_ platforms only.
 
-## Requirements
-
-To use Chrome for Testing assets you'll need a version of Selenium > 4.11.0
-
 ## Why Chrome for Testing?
 
 Taken from [the Chrome Developers Blog](https://developer.chrome.com/blog/chrome-for-testing/)
@@ -28,6 +24,10 @@ Taken from [the Chrome Developers Blog](https://developer.chrome.com/blog/chrome
 > Chrome for Testing is a dedicated flavor of Chrome targeting the testing use case, without auto-update, integrated into the Chrome release process, made available for every Chrome release
 >
 > ...finding a matching Chrome and ChromeDriver binary can be completely eliminated by integrating the ChromeDriver release process into the Chrome for Testing infrastructure.
+
+## Requirements
+
+To use Chrome for Testing assets you'll need a version of Selenium > 4.11.0
 
 ## Installation
 
@@ -124,20 +124,21 @@ Version 117.0.5938.62 is the active version
 
 ```bash
 (venv) $ c4t --help
-usage: c4t [-h] [-V] {install,path,list,switch} ...
+usage: c4t [-h] [-V] {install,path,list,switch,delete} ...
 
-Install 'Chrome for Testing' assets.
+Install 'Chrome for Testing' assets
 
 options:
   -h, --help            show this help message and exit
   -V, --version         Show version and exit.
 
 Commands:
-  {install,path,list,switch}
-    install             Install a version of 'Chrome for Testing' assets.
-    path                Show the installation path of assets and exit.
+  {install,path,list,switch,delete}
+    install             Install a version of 'Chrome for Testing' assets
+    path                Show the installation path of assets and exit
     list                List versions
-    switch              Switch the active version.
+    switch              Switch the active version
+    delete              Delete an installed version
 
 Reference: https://github.com/GoogleChromeLabs/chrome-for-testing
 ```
