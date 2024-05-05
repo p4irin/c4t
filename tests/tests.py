@@ -16,7 +16,7 @@ class C4tTests(unittest.TestCase):
 
     @classmethod
     def setUpClass(cls) -> None:
-        cls.assets_dir = c4t._path_to_assets
+        cls.assets_dir = c4t.path_to_assets
         cls.chrome_options = ChromeOptions()
         cls.chrome_options.binary_location = c4t.location.chrome
         cls.chrome_options.add_argument('--no-sandbox')

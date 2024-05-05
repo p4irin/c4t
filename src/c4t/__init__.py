@@ -50,7 +50,7 @@ from typing import Literal, List, Union
 
 
 _default_path_to_assets = f'{os.environ["HOME"]}/.c4t-assets'
-_path_to_assets = os.getenv(
+path_to_assets = os.getenv(
     'C4T_PATH_TO_ASSETS', _default_path_to_assets
 )
 
@@ -62,8 +62,8 @@ class _Location:
         chrome: The path to the 'Chrome for Testing' binary
         chromedriver: The path to the chromedriver binary
     """
-    chrome: str = f'{_path_to_assets}/chrome'
-    chromedriver: str = f'{_path_to_assets}/chromedriver'
+    chrome: str = f'{path_to_assets}/chrome'
+    chromedriver: str = f'{path_to_assets}/chromedriver'
 
 
 location = _Location
@@ -122,7 +122,7 @@ browser.quit()
             SystemExit on unhandled exceptions.
         """
         try:
-            os.mkdir(_path_to_assets)
+            os.mkdir(path_to_assets)
         except FileExistsError:
             pass
         except Exception as e:
@@ -249,7 +249,7 @@ browser.quit()
             version: The version of the binary to symlink to.
             for_platform: The binary's target platform. Currently only linux64.
         """
-        symlink_to_binary = f'{_path_to_assets}/{to_binary}'
+        symlink_to_binary = f'{path_to_assets}/{to_binary}'
         if os.path.islink(symlink_to_binary):
             link_target = os.readlink(symlink_to_binary)
             if version not in link_target.split('/'):
@@ -261,7 +261,7 @@ browser.quit()
             )
             os.symlink(
                 f'./{version}/{to_binary}-{for_platform}/{to_binary}',
-                f'{_path_to_assets}/{to_binary}'
+                f'{path_to_assets}/{to_binary}'
             )
             return
         
@@ -279,7 +279,7 @@ browser.quit()
             str: Representing the active version.
             bool: False. No installed version was found.
         """
-        symlink_to_chrome = f'{_path_to_assets}/chrome'
+        symlink_to_chrome = f'{path_to_assets}/chrome'
         try:
             version = os.readlink(symlink_to_chrome).split('/')[1]
             return version
@@ -341,7 +341,7 @@ browser.quit()
             if not found_version:
                 raise UnknownChromeVersion
 
-        self._download_dir = f'{_path_to_assets}/{version}'
+        self._download_dir = f'{path_to_assets}/{version}'
         print(f'Create directory {self._download_dir}')
         try:
             os.makedirs(
@@ -397,7 +397,7 @@ browser.quit()
 
     @property
     def path(self) -> str:
-        return _path_to_assets
+        return path_to_assets
 
     def installed(self, output: bool=True) -> List[str]:
         """List installed versions"""
