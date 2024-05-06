@@ -139,27 +139,6 @@ browser.quit()
 
         return f'{self._download_dir}/{binary}-{self._platform}'
         
-    def _make_executable(
-            self, files: List[str],
-            for_binary: Literal['chrome', 'chromedriver']
-        ) -> None:
-        """Set the execute bit on each file in a list.
-        
-        Necessary, zipfile doesn't preserve file permissions.
-
-        Args:
-            files: Files that should have their execute bit on.
-            for_binary: The binary the files are related to.
-        """
-
-        for file in files:
-            try:
-                os.chmod(f'{self._installation_path_of(for_binary)}/{file}', 0o755)
-            except FileNotFoundError:
-                # Some files were removed from the Chrome zip download
-                # Just move on to the next file
-                continue
-
     def _download(
             self,
             binary: Literal['chrome', 'chromedriver'],
