@@ -1,6 +1,5 @@
 import unittest
 import os
-import time
 from selenium.webdriver import ChromeOptions, ChromeService, Chrome
 import c4t
 
@@ -9,14 +8,15 @@ __email__ = '139928764+p4irin@users.noreply.github.com'
 __version__ = '1.6.0'
 
 
-class C4tTests(unittest.TestCase):
+class C4tIntegrationTests(unittest.TestCase):
 
     class _TestData:
         specific_version_of_assets = '116.0.5794.0'
 
     @classmethod
     def setUpClass(cls) -> None:
-        cls.assets_dir = c4t._path_to_assets
+        cls.assets_dir = c4t.path_to_assets
+        cls.assets = c4t.Assets()
         cls.chrome_options = ChromeOptions()
         cls.chrome_options.binary_location = c4t.location.chrome
         cls.chrome_options.add_argument('--no-sandbox')
@@ -44,15 +44,17 @@ class C4tTests(unittest.TestCase):
         )
         browser.get('http://pypi.org/user/p4irin')
         self.assertTrue(browser.title == 'Profile of p4irin · PyPI')
-        time.sleep(3)
         self.assertTrue(
             browser.capabilities["browserVersion"] == expected_version
         )
-        browser.quit()    
+        browser.quit()
 
-    def test_001_installation_of_default_latest_stable_version(self):            
-        assets = c4t.Assets()
+    def test_001_default_path_to_assets(self):
+        self.assertTrue(os.path.exists(f'{self.assets_dir}'))
         self.assertTrue(os.path.isdir(self.assets_dir))
+
+    def test_002_installation_of_default_latest_stable_version(self):            
+        assets = self.assets
         assets.install()
         self.assertTrue(isinstance(assets.active_version, str))
         self.assertTrue(
@@ -71,9 +73,8 @@ class C4tTests(unittest.TestCase):
             expected_version=assets.active_version
         )
 
-    def test_002_installation_of_a_specific_version_of_assets(self):     
-        assets = c4t.Assets()
-        self.assertTrue(os.path.isdir(self.assets_dir))
+    def test_003_installation_of_a_specific_version_of_assets(self):     
+        assets = self.assets
         assets.install(self._TestData.specific_version_of_assets)
         self.assertTrue(
             assets.active_version == self._TestData.specific_version_of_assets)
