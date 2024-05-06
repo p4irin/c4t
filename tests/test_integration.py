@@ -8,7 +8,7 @@ __email__ = '139928764+p4irin@users.noreply.github.com'
 __version__ = '1.6.0'
 
 
-class C4tTests(unittest.TestCase):
+class C4tIntegrationTests(unittest.TestCase):
 
     class _TestData:
         specific_version_of_assets = '116.0.5794.0'
