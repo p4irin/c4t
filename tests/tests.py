@@ -1,6 +1,5 @@
 import unittest
 import os
-import time
 from selenium.webdriver import ChromeOptions, ChromeService, Chrome
 import c4t
 
